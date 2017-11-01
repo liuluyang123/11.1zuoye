@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+    <style>
+
+        #ul{
+            width: 600px;
+            height: 220px;
+            border: 1px solid #ccc;
+            list-style: none;
+        }
+        #ul li{
+            float: left;
+            margin: 20px;
+        }
+        #div{
+            width: 400px;
+            height: 300px;
+            border: 1px solid #111;
+        }
+
+    </style>
+    <script>
+
+        $(function(){
+                $.ajax({
+                    url:"http://localhost:3000/item/list",
+                    type:"post",
+                    dataType:'json',
+                    success:function(e){
+//                        console.log(e)
+                        var ll=Math.ceil(e.length/2);
+//                        console.log(ll);
+                        for(var i=1;i<ll+1;i++){
+                            $('#ul').append('<li>'+i+'</li>')
+                        }
+                        $('li').click(function(){
+                            var ht=$(this).html();
+//                            var chu=''
+                            console.log(ht)
+                            $.ajax({
+                                url:"http://localhost:3000/item/in",
+                                type:'post',
+                                dataType:'json',
+                                data:{abc:ht},
+                                success:function(e){
+                                    console.log(e)
+                                    for(var i in e){
+                                        $('#div').append('<div>'+ e[i].shuju+'</div>')
+                                    }
+                                }
+                            })
+
+                        })
+                    }
+                })
+
+            });
+
+    </script>
+</head>
+<body>
+<div id="div">
+
+</div>
+<ul id="ul"></ul>
+
+
+
+
+</body>
+</html>
